@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ciencias Naturales 5° – Lección 9: Funciones de las Hormonas</title>
+<style>
+  :root {
+    --orange: #db6015;
+    --yellow: #f7be00;
+    --darkblue: #244b5a;
+    --brick: #993921;
+    --lightblue: #f0f8ff;
+    --white: #ffffff;
+    --shadow: 0 4px 20px rgba(36,75,90,0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--lightblue);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .presentation {
+    width: 100%;
+    max-width: 900px;
+    height: 100vh;
+    max-height: 600px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .slide {
+    display: none;
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    position: relative;
+    flex-direction: column;
+  }
+  .slide.active { display: flex; }
+
+  /* HEADER */
+  .slide-header {
+    background: var(--darkblue);
+    padding: 10px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 52px;
+    flex-shrink: 0;
+  }
+  .slide-header .brand {
+    color: var(--yellow);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .slide-header .slide-info {
+    color: rgba(255,255,255,0.7);
+    font-size: 11px;
+  }
+
+  /* BODY */
+  .slide-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px 60px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* FOOTER */
+  .slide-footer {
+    background: var(--darkblue);
+    padding: 8px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 42px;
+    flex-shrink: 0;
+  }
+  .slide-dots { display: flex; gap: 6px; }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: background 0.3s;
+    cursor: pointer;
+  }
+  .dot.active { background: var(--yellow); }
+
+  /* ARROWS */
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 3px 12px rgba(219,96,21,0.4);
+    transition: background 0.2s, transform 0.15s;
+    z-index: 10;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  .arrow:hover { background: var(--brick); transform: translateY(-50%) scale(1.08); }
+  .arrow:active { transform: translateY(-50%) scale(0.95); }
+  .arrow-left { left: 6px; }
+  .arrow-right { right: 6px; }
+  .arrow.hidden { opacity: 0.2; pointer-events: none; }
+
+  /* TYPOGRAPHY */
+  h1 { font-size: 28px; color: var(--darkblue); font-weight: 800; line-height: 1.2; }
+  h2 { font-size: 20px; color: var(--darkblue); font-weight: 700; margin-bottom: 14px; }
+  h3 { font-size: 16px; color: var(--brick); font-weight: 700; margin-bottom: 6px; }
+  p { font-size: 14px; color: #333; line-height: 1.6; }
+
+  /* COVER SLIDE */
+  .cover-bg {
+    background: linear-gradient(135deg, var(--darkblue) 0%, #1a3a47 100%);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px 60px;
+    gap: 16px;
+  }
+  .cover-badge {
+    background: var(--orange);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 20px;
+  }
+  .cover-title {
+    color: white;
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+  .cover-subtitle { color: var(--yellow); font-size: 16px; font-weight: 600; }
+  .cover-icon { font-size: 70px; }
+  .cover-message {
+    background: rgba(247,190,0,0.15);
+    border: 1px solid rgba(247,190,0,0.3);
+    border-radius: 12px;
+    padding: 12px 20px;
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+    max-width: 500px;
+  }
+
+  /* SECTION TAG */
+  .section-tag {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+  }
+  .section-tag.yellow { background: var(--yellow); color: var(--darkblue); }
+  .section-tag.brick { background: var(--brick); }
+  .section-tag.blue { background: var(--darkblue); }
+
+  /* OBJECTIVE CARDS */
+  .obj-card {
+    background: white;
+    border-radius: 12px;
+    padding: 14px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    box-shadow: 0 2px 10px rgba(36,75,90,0.08);
+    margin-bottom: 12px;
+    border-left: 4px solid var(--orange);
+  }
+  .obj-number {
+    background: var(--orange);
+    color: white;
+    font-weight: 800;
+    font-size: 16px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .obj-text { font-size: 14px; color: var(--darkblue); font-weight: 500; line-height: 1.5; }
+
+  /* QUESTION CARDS */
+  .question-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 10px rgba(36,75,90,0.08);
+    display: flex; align-items: center; gap: 14px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .question-card:active { transform: scale(0.99); }
+  .question-icon { font-size: 28px; }
+  .question-text { font-size: 14px; color: var(--darkblue); font-weight: 500; }
+
+  /* VOCAB CARDS */
+  .vocab-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 6px; }
+  .vocab-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px 20px;
+    box-shadow: 0 2px 10px rgba(36,75,90,0.08);
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .vocab-icon { font-size: 32px; flex-shrink: 0; }
+  .vocab-word { font-size: 15px; font-weight: 800; color: var(--orange); margin-bottom: 4px; }
+  .vocab-def { font-size: 13px; color: #555; line-height: 1.5; }
+
+  /* CONTENT BLOCKS */
+  .content-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 6px; }
+  .content-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(36,75,90,0.08);
+    text-align: center;
+  }
+  .content-card .icon { font-size: 36px; margin-bottom: 8px; }
+  .content-card h3 { color: var(--orange); font-size: 14px; margin-bottom: 6px; }
+  .content-card p { font-size: 12px; color: #555; line-height: 1.5; }
+
+  .info-box {
+    background: linear-gradient(135deg, var(--darkblue), #1a3a47);
+    border-radius: 14px;
+    padding: 18px 20px;
+    color: white;
+    margin-bottom: 12px;
+  }
+  .info-box h3 { color: var(--yellow); font-size: 15px; margin-bottom: 8px; }
+  .info-box p { font-size: 13px; color: rgba(255,255,255,0.9); line-height: 1.6; }
+
+  .hormone-list { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
+  .hormone-item {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 2px 8px rgba(36,75,90,0.08);
+    border-left: 4px solid var(--yellow);
+  }
+  .hormone-icon { font-size: 28px; }
+  .hormone-name { font-size: 14px; font-weight: 700; color: var(--darkblue); }
+  .hormone-func { font-size: 12px; color: #666; margin-top: 2px; }
+
+  /* EXPLORATION */
+  .explore-container {
+    background: linear-gradient(135deg, #e8f4f8, var(--lightblue));
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+  }
+  .body-diagram {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    box-shadow: 0 2px 10px rgba(36,75,90,0.08);
+  }
+  .organ-btn {
+    background: var(--lightblue);
+    border: 2px solid var(--darkblue);
+    border-radius: 10px;
+    padding: 10px 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .organ-btn:hover, .organ-btn.active { background: var(--darkblue); }
+  .organ-btn:hover .organ-label, .organ-btn.active .organ-label { color: white; }
+  .organ-btn .organ-icon { font-size: 24px; display: block; margin-bottom: 4px; }
+  .organ-label { font-size: 11px; color: var(--darkblue); font-weight: 600; transition: color 0.2s; }
+  .explore-info {
+    background: var(--darkblue);
+    color: white;
+    border-radius: 12px;
+    padding: 14px 18px;
+    width: 100%;
+    min-height: 60px;
+    font-size: 13px;
+    line-height: 1.6;
+    text-align: center;
+  }
+  .explore-info .info-title { color: var(--yellow); font-weight: 700; margin-bottom: 4px; font-size: 14px; }
+
+  /* QUIZ / ACTIVITIES */
+  .quiz-container { display: flex; flex-direction: column; gap: 14px; }
+  .quiz-question { font-size: 15px; font-weight: 700; color: var(--darkblue); margin-bottom: 10px; line-height: 1.4; }
+  .option-btn {
+    width: 100%;
+    background: white;
+    border: 2px solid #dce8ee;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--darkblue);
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+    font-family: inherit;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .option-btn:hover { border-color: var(--orange); background: #fff8f0; }
+  .option-btn.correct { background: #d4f8d4; border-color: #3cb371; color: #1a5e1a; }
+  .option-btn.wrong { background: #ffd4d4; border-color: #e05555; color: #7a1a1a; }
+  .option-btn .opt-letter {
+    background: var(--darkblue);
+    color: white;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px;
+    flex-shrink: 0;
+  }
+  .option-btn.correct .opt-letter { background: #3cb371; }
+  .option-btn.wrong .opt-letter { background: #e05555; }
+  .feedback-msg {
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    display: none;
+  }
+  .feedback-msg.show { display: block; }
+  .feedback-msg.success { background: #d4f8d4; color: #1a5e1a; }
+  .feedback-msg.error { background: #ffd4d4; color: #7a1a1a; }
+  .retry-btn {
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    display: none;
+    margin-top: 6px;
+    font-family: inherit;
+    transition: background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .retry-btn.show { display: inline-block; }
+  .retry-btn:hover { background: var(--brick); }
+
+  /* GAME */
+  .game-container { display: flex; flex-direction: column; gap: 12px; }
+  .game-title { font-size: 15px; font-weight: 700; color: var(--darkblue); }
+  .match-item {
+    background: white;
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 2px 8px rgba(36,75,90,0.08);
+    border: 2px solid transparent;
+  }
+  .match-question { font-size: 13px; font-weight: 600; color: var(--darkblue); margin-bottom: 8px; }
+  .match-options { display: flex; flex-wrap: wrap; gap: 6px; }
+  .match-opt {
+    background: var(--lightblue);
+    border: 2px solid #c5dde6;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: var(--darkblue);
+    font-weight: 600;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .match-opt:hover { border-color: var(--orange); background: #fff8f0; }
+  .match-opt.selected { border-color: var(--orange); background: #fff0e0; }
+  .match-opt.correct { background: #d4f8d4; border-color: #3cb371; color: #1a5e1a; }
+  .match-opt.wrong { background: #ffd4d4; border-color: #e05555; color: #7a1a1a; }
+
+  /* APPLICATION */
+  .scenario-box {
+    background: linear-gradient(135deg, #fff8e6, #fffbf0);
+    border: 2px solid var(--yellow);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .scenario-box h3 { color: var(--brick); font-size: 14px; margin-bottom: 8px; }
+  .scenario-box p { font-size: 13px; color: #444; line-height: 1.6; }
+  .scenario-icon { font-size: 40px; text-align: center; margin-bottom: 10px; }
+
+  /* REVIEW */
+  .review-container { display: flex; flex-direction: column; gap: 10px; }
+  .review-q { font-size: 14px; font-weight: 700; color: var(--darkblue); margin-bottom: 8px; }
+  .tf-btns { display: flex; gap: 8px; }
+  .tf-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #dce8ee;
+    background: white;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    color: var(--darkblue);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .tf-btn:hover { border-color: var(--orange); }
+  .tf-btn.correct { background: #d4f8d4; border-color: #3cb371; color: #1a5e1a; }
+  .tf-btn.wrong { background: #ffd4d4; border-color: #e05555; color: #7a1a1a; }
+
+  /* METACOGNITION */
+  .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 8px; }
+  .meta-card {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(36,75,90,0.08);
+    text-align: center;
+  }
+  .meta-card .meta-icon { font-size: 32px; margin-bottom: 8px; }
+  .meta-card h3 { color: var(--darkblue); font-size: 13px; margin-bottom: 8px; }
+  .meta-select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #dce8ee;
+    font-size: 12px;
+    font-family: inherit;
+    color: var(--darkblue);
+    background: var(--lightblue);
+    cursor: pointer;
+  }
+
+  /* CLOSURE */
+  .closure-bg {
+    background: linear-gradient(135deg, var(--darkblue) 0%, #1a3a47 100%);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px 60px;
+    gap: 16px;
+  }
+  .closure-seal {
+    width: 100px; height: 100px;
+    background: linear-gradient(135deg, var(--yellow), #e6a800);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 48px;
+    box-shadow: 0 6px 24px rgba(247,190,0,0.4);
+  }
+  .closure-title { color: white; font-size: 26px; font-weight: 800; }
+  .closure-sub { color: var(--yellow); font-size: 15px; font-weight: 600; }
+  .closure-message { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 20px; color: rgba(255,255,255,0.9); font-size: 13px; max-width: 480px; line-height: 1.6; }
+  .stars { font-size: 28px; letter-spacing: 4px; }
+
+  /* PROGRESS BAR */
+  .progress-bar-wrap {
+    height: 3px;
+    background: rgba(255,255,255,0.1);
+    position: absolute;
+    top: 52px;
+    left: 0; right: 0;
+    z-index: 5;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--yellow);
+    transition: width 0.4s ease;
+  }
+
+  @media (max-width: 600px) {
+    .slide-body { padding: 16px 20px; }
+    .slide-header, .slide-footer { padding-left: 20px; padding-right: 20px; }
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+    .content-grid { grid-template-columns: 1fr; }
+    .meta-grid { grid-template-columns: 1fr; }
+    .body-diagram { grid-template-columns: repeat(2,1fr); }
+    .cover-title { font-size: 24px; }
+    .arrow { width: 36px; height: 36px; font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="presentation">
+
+  <!-- ARROW LEFT -->
+  <button class="arrow arrow-left hidden" id="arrowLeft" onclick="changeSlide(-1)" aria-label="Anterior">&#8592;</button>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 1: PORTADA -->
+  <!-- ============================================================ -->
+  <div class="slide active" id="slide-1">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Ciencias Naturales · 5° Primaria</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+    <div class="cover-bg">
+      <span class="cover-badge">Lección 9</span>
+      <div class="cover-icon">🧬</div>
+      <div class="cover-title">Funciones de las Hormonas</div>
+      <div class="cover-subtitle">Ciencias Naturales · 5° Primaria</div>
+      <div class="cover-message">
+        ✨ Hoy descubrirás los mensajeros secretos de tu cuerpo. ¡Prepárate para aprender algo asombroso!
+      </div>
+    </div>
+    <div class="slide-footer">
+      <div class="slide-dots" id="dots"></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 2: OBJETIVOS -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-2">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Objetivos</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+    <div class="slide-body">
+      <span class="section-tag">¿Qué aprenderás hoy?</span>
+      <h2>Objetivos de Aprendizaje</h2>
+      <div class="obj-card">
+        <div class="obj-number">1</div>
+        <div class="obj-text">Identificar qué son las hormonas y cuál es su función principal en el cuerpo humano.</div>
+      </div>
+      <div class="obj-card" style="border-left-color: var(--yellow);">
+        <div class="obj-number" style="background: var(--yellow); color: var(--darkblue);">2</div>
+        <div class="obj-text">Reconocer las principales hormonas, la glándula que las produce y el efecto que tienen en el organismo.</div>
+      </div>
+      <div class="obj-card" style="border-left-color: var(--brick);">
+        <div class="obj-number" style="background: var(--brick);">3</div>
+        <div class="obj-text">Relacionar el funcionamiento de las hormonas con situaciones de la vida cotidiana.</div>
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 3: ACTIVACIÓN DE CONOCIMIENTOS -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-3">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Conocimientos previos</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag yellow">¡Activa tu mente!</span>
+      <h2>¿Qué sabes ya?</h2>
+      <p style="margin-bottom:14px; color:#555;">Reflexiona sobre estas preguntas antes de comenzar:</p>
+      <div class="question-card" onclick="toggleReflect(this)">
+        <div class="question-icon">🏃</div>
+        <div class="question-text">¿Alguna vez has sentido que tu corazón late muy rápido cuando tienes miedo? ¿Qué crees que lo produce?</div>
+      </div>
+      <div class="question-card" onclick="toggleReflect(this)">
+        <div class="question-icon">📏</div>
+        <div class="question-text">¿Por qué crees que los niños crecen? ¿Qué parte del cuerpo dará la "orden" de crecer?</div>
+      </div>
+      <div class="question-card" onclick="toggleReflect(this)">
+        <div class="question-icon">💬</div>
+        <div class="question-text">¿Has escuchado la palabra "hormona" antes? ¿En qué contexto?</div>
+      </div>
+      <p style="font-size:12px; color:#888; margin-top:8px;">👆 Toca cada tarjeta para reflexionar</p>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 4: PALABRAS CLAVE -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-4">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Palabras clave</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag brick">Vocabulario esencial</span>
+      <h2>Palabras Clave</h2>
+      <div class="vocab-grid">
+        <div class="vocab-card">
+          <div class="vocab-icon">🧬</div>
+          <div>
+            <div class="vocab-word">Hormona</div>
+            <div class="vocab-def">Sustancia química producida por glándulas del cuerpo que viaja por la sangre y lleva mensajes a otros órganos para regular funciones.</div>
+          </div>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-icon">🏭</div>
+          <div>
+            <div class="vocab-word">Glándula</div>
+            <div class="vocab-def">Órgano del cuerpo encargado de producir y secretar sustancias útiles, como las hormonas.</div>
+          </div>
+        </div>
+        <div class="vocab-card">
+          <div class="vocab-icon">🎛️</div>
+          <div>
+            <div class="vocab-word">Sistema endocrino</div>
+            <div class="vocab-def">Conjunto de glándulas y hormonas que trabajan juntas para regular y coordinar las funciones del cuerpo humano.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 5: CONTENIDO – ¿QUÉ SON LAS HORMONAS? -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-5">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Contenido 1</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag">Contenido</span>
+      <h2>¿Qué son las hormonas?</h2>
+      <div class="info-box">
+        <h3>🧬 Los mensajeros del cuerpo</h3>
+        <p>Las <strong>hormonas</strong> son sustancias químicas producidas por glándulas especiales. Viajan a través de la sangre y llegan a diferentes órganos del cuerpo, entregándoles instrucciones sobre cómo comportarse.</p>
+      </div>
+      <div class="content-grid">
+        <div class="content-card">
+          <div class="icon">🏭</div>
+          <h3>Se producen en glándulas</h3>
+          <p>Cada hormona se fabrica en una glándula específica, como la tiroides, las suprarrenales o el páncreas.</p>
+        </div>
+        <div class="content-card">
+          <div class="icon">🩸</div>
+          <h3>Viajan por la sangre</h3>
+          <p>Una vez producidas, las hormonas entran al torrente sanguíneo y son transportadas a todo el cuerpo.</p>
+        </div>
+        <div class="content-card">
+          <div class="icon">📩</div>
+          <h3>Llevan mensajes</h3>
+          <p>Cada hormona actúa como una carta con instrucciones para el órgano que debe recibirla.</p>
+        </div>
+        <div class="content-card">
+          <div class="icon">🎯</div>
+          <h3>Actúan en órganos diana</h3>
+          <p>Solo ciertos órganos responden a cada hormona; se llaman "órganos diana" o "células blanco".</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 6: CONTENIDO – PRINCIPALES HORMONAS -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-6">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Contenido 2</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag">Contenido</span>
+      <h2>Principales Hormonas</h2>
+      <div class="hormone-list">
+        <div class="hormone-item">
+          <div class="hormone-icon">📏</div>
+          <div>
+            <div class="hormone-name">Hormona del Crecimiento (GH)</div>
+            <div class="hormone-func">Producida por la hipófisis. Estimula el crecimiento de los huesos y músculos en niños y adolescentes.</div>
+          </div>
+        </div>
+        <div class="hormone-item" style="border-left-color: var(--orange);">
+          <div class="hormone-icon">⚡</div>
+          <div>
+            <div class="hormone-name">Adrenalina (Epinefrina)</div>
+            <div class="hormone-func">Producida por las glándulas suprarrenales. Se libera ante situaciones de estrés o peligro: aumenta la frecuencia cardíaca y prepara al cuerpo para reaccionar.</div>
+          </div>
+        </div>
+        <div class="hormone-item" style="border-left-color: var(--brick);">
+          <div class="hormone-icon">🍬</div>
+          <div>
+            <div class="hormone-name">Insulina</div>
+            <div class="hormone-func">Producida por el páncreas. Regula los niveles de azúcar (glucosa) en la sangre y permite que las células la usen como energía.</div>
+          </div>
+        </div>
+        <div class="hormone-item" style="border-left-color: var(--darkblue);">
+          <div class="hormone-icon">🔥</div>
+          <div>
+            <div class="hormone-name">Tiroxina</div>
+            <div class="hormone-func">Producida por la tiroides. Controla el metabolismo del cuerpo: regula cuánta energía usa el organismo.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 7: EXPLORACIÓN VISUAL -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-7">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Exploración</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body" style="padding-top: 14px;">
+      <span class="section-tag yellow">¡Haz clic para explorar!</span>
+      <h2 style="margin-bottom: 10px;">¿Dónde se producen?</h2>
+      <div class="explore-container">
+        <div class="body-diagram">
+          <button class="organ-btn" onclick="exploreOrgan('hipofisis')">
+            <span class="organ-icon">🧠</span>
+            <span class="organ-label">Hipófisis</span>
+          </button>
+          <button class="organ-btn" onclick="exploreOrgan('tiroides')">
+            <span class="organ-icon">🦋</span>
+            <span class="organ-label">Tiroides</span>
+          </button>
+          <button class="organ-btn" onclick="exploreOrgan('suprarrenales')">
+            <span class="organ-icon">⚡</span>
+            <span class="organ-label">Suprarrenales</span>
+          </button>
+          <button class="organ-btn" onclick="exploreOrgan('pancreas')">
+            <span class="organ-icon">🍬</span>
+            <span class="organ-label">Páncreas</span>
+          </button>
+          <button class="organ-btn" onclick="exploreOrgan('ovarios')">
+            <span class="organ-icon">🌸</span>
+            <span class="organ-label">Ovarios</span>
+          </button>
+          <button class="organ-btn" onclick="exploreOrgan('testiculos')">
+            <span class="organ-icon">🔵</span>
+            <span class="organ-label">Testículos</span>
+          </button>
+        </div>
+        <div class="explore-info" id="exploreInfo">
+          <div style="color:rgba(255,255,255,0.6); font-size:13px;">👆 Toca una glándula para descubrir qué hormona produce</div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 8: ACTIVIDAD DE COMPRENSIÓN -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-8">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Actividad 1</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag">Comprensión</span>
+      <h2>Actividad: Selección Múltiple</h2>
+      <div class="quiz-container">
+
+        <!-- Q1 -->
+        <div id="q1-block">
+          <div class="quiz-question">1. ¿Cómo se desplazan las hormonas por el cuerpo?</div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q1')"><span class="opt-letter">A</span>Por los nervios del sistema nervioso</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q1')"><span class="opt-letter">B</span>A través de la sangre</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q1')"><span class="opt-letter">C</span>Por los músculos</button>
+          </div>
+          <div class="feedback-msg" id="q1-fb"></div>
+          <button class="retry-btn" id="q1-retry" onclick="retryQ('q1')">🔄 Intentar nuevamente</button>
+        </div>
+
+        <!-- Q2 -->
+        <div id="q2-block">
+          <div class="quiz-question">2. ¿Cuál hormona regula el nivel de azúcar en la sangre?</div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q2')"><span class="opt-letter">A</span>Adrenalina</button>
+            <button class="option-btn" onclick="checkAnswer(this, false, 'q2')"><span class="opt-letter">B</span>Tiroxina</button>
+            <button class="option-btn" onclick="checkAnswer(this, true, 'q2')"><span class="opt-letter">C</span>Insulina</button>
+          </div>
+          <div class="feedback-msg" id="q2-fb"></div>
+          <button class="retry-btn" id="q2-retry" onclick="retryQ('q2')">🔄 Intentar nuevamente</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 9: JUEGO EDUCATIVO – RELACIONA -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-9">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Juego</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag yellow">¡Juego educativo!</span>
+      <h2>🎯 Relaciona: Hormona con su función</h2>
+      <p style="font-size:13px; color:#666; margin-bottom:14px;">Toca la función correcta para cada hormona:</p>
+      <div class="game-container">
+
+        <div class="match-item" id="m1">
+          <div class="match-question">📏 Hormona del Crecimiento (GH)</div>
+          <div class="match-options">
+            <button class="match-opt" onclick="matchAnswer(this, 'm1', true)">Estimula el crecimiento de huesos y músculos</button>
+            <button class="match-opt" onclick="matchAnswer(this, 'm1', false)">Regula el azúcar en la sangre</button>
+            <button class="match-opt" onclick="matchAnswer(this, 'm1', false)">Acelera el corazón ante el peligro</button>
+          </div>
+          <div class="feedback-msg" id="m1-fb"></div>
+          <button class="retry-btn" id="m1-retry" onclick="retryMatch('m1')">🔄 Intentar nuevamente</button>
+        </div>
+
+        <div class="match-item" id="m2">
+          <div class="match-question">⚡ Adrenalina</div>
+          <div class="match-options">
+            <button class="match-opt" onclick="matchAnswer(this, 'm2', false)">Controla el metabolismo</button>
+            <button class="match-opt" onclick="matchAnswer(this, 'm2', true)">Prepara el cuerpo ante situaciones de estrés o peligro</button>
+            <button class="match-opt" onclick="matchAnswer(this, 'm2', false)">Estimula el crecimiento</button>
+          </div>
+          <div class="feedback-msg" id="m2-fb"></div>
+          <button class="retry-btn" id="m2-retry" onclick="retryMatch('m2')">🔄 Intentar nuevamente</button>
+        </div>
+
+        <div class="match-item" id="m3">
+          <div class="match-question">🔥 Tiroxina</div>
+          <div class="match-options">
+            <button class="match-opt" onclick="matchAnswer(this, 'm3', false)">Regula el azúcar</button>
+            <button class="match-opt" onclick="matchAnswer(this, 'm3', false)">Produce leche materna</button>
+            <button class="match-opt" onclick="matchAnswer(this, 'm3', true)">Controla cuánta energía usa el cuerpo (metabolismo)</button>
+          </div>
+          <div class="feedback-msg" id="m3-fb"></div>
+          <button class="retry-btn" id="m3-retry" onclick="retryMatch('m3')">🔄 Intentar nuevamente</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 10: APLICACIÓN PRÁCTICA -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-10">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Aplicación</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag brick">Aplicación práctica</span>
+      <h2>Situación de la vida real</h2>
+      <div class="scenario-box">
+        <div class="scenario-icon">🏫</div>
+        <h3>📖 La situación de Sofía</h3>
+        <p>Sofía tiene 10 años. El médico le dijo que su cuerpo no produce suficiente insulina. Como resultado, el azúcar en su sangre sube demasiado y se siente cansada y con sed todo el tiempo. El médico le explicó que tiene diabetes tipo 1.</p>
+      </div>
+      <div class="quiz-container">
+        <div class="quiz-question">¿Qué parte del cuerpo tiene el problema en Sofía?</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <button class="option-btn" onclick="checkAnswer(this, false, 'app1')"><span class="opt-letter">A</span>El corazón</button>
+          <button class="option-btn" onclick="checkAnswer(this, true, 'app1')"><span class="opt-letter">B</span>El páncreas</button>
+          <button class="option-btn" onclick="checkAnswer(this, false, 'app1')"><span class="opt-letter">C</span>La hipófisis</button>
+        </div>
+        <div class="feedback-msg" id="app1-fb"></div>
+        <button class="retry-btn" id="app1-retry" onclick="retryQ('app1')">🔄 Intentar nuevamente</button>
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 11: REPASO FINAL -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-11">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Repaso</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag blue">Repaso final</span>
+      <h2>✅ Verdadero o Falso</h2>
+      <p style="font-size:13px; color:#666; margin-bottom:12px;">Toca V (Verdadero) o F (Falso) para cada afirmación:</p>
+      <div class="review-container">
+
+        <div>
+          <div class="review-q">1. Las hormonas viajan por los nervios hasta llegar a los órganos.</div>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfAnswer(this, false, 'tf1')">V – Verdadero</button>
+            <button class="tf-btn" onclick="tfAnswer(this, true, 'tf1')">F – Falso</button>
+          </div>
+          <div class="feedback-msg" id="tf1-fb"></div>
+          <button class="retry-btn" id="tf1-retry" onclick="retryTF('tf1')">🔄 Intentar nuevamente</button>
+        </div>
+
+        <div>
+          <div class="review-q">2. La adrenalina se libera cuando el cuerpo percibe peligro o estrés.</div>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfAnswer(this, true, 'tf2')">V – Verdadero</button>
+            <button class="tf-btn" onclick="tfAnswer(this, false, 'tf2')">F – Falso</button>
+          </div>
+          <div class="feedback-msg" id="tf2-fb"></div>
+          <button class="retry-btn" id="tf2-retry" onclick="retryTF('tf2')">🔄 Intentar nuevamente</button>
+        </div>
+
+        <div>
+          <div class="review-q">3. El conjunto de glándulas y hormonas forma el sistema endocrino.</div>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfAnswer(this, true, 'tf3')">V – Verdadero</button>
+            <button class="tf-btn" onclick="tfAnswer(this, false, 'tf3')">F – Falso</button>
+          </div>
+          <div class="feedback-msg" id="tf3-fb"></div>
+          <button class="retry-btn" id="tf3-retry" onclick="retryTF('tf3')">🔄 Intentar nuevamente</button>
+        </div>
+
+        <div>
+          <div class="review-q">4. La tiroxina es producida por el páncreas.</div>
+          <div class="tf-btns">
+            <button class="tf-btn" onclick="tfAnswer(this, false, 'tf4')">V – Verdadero</button>
+            <button class="tf-btn" onclick="tfAnswer(this, true, 'tf4')">F – Falso</button>
+          </div>
+          <div class="feedback-msg" id="tf4-fb"></div>
+          <button class="retry-btn" id="tf4-retry" onclick="retryTF('tf4')">🔄 Intentar nuevamente</button>
+        </div>
+
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 12: METACOGNICIÓN -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-12">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Reflexión</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="slide-body">
+      <span class="section-tag yellow">Reflexión personal</span>
+      <h2>🤔 ¿Qué aprendí hoy?</h2>
+      <p style="font-size:13px; color:#666; margin-bottom:14px;">Toca cada tarjeta y elige tu respuesta:</p>
+      <div class="meta-grid">
+        <div class="meta-card">
+          <div class="meta-icon">💡</div>
+          <h3>Lo más importante que aprendí fue...</h3>
+          <select class="meta-select" onchange="metaSelect(this)">
+            <option value="">Elige una opción</option>
+            <option>Qué son las hormonas</option>
+            <option>Cómo viajan por la sangre</option>
+            <option>Las funciones de cada hormona</option>
+            <option>Qué es el sistema endocrino</option>
+          </select>
+        </div>
+        <div class="meta-card">
+          <div class="meta-icon">🌟</div>
+          <h3>Esta lección me pareció...</h3>
+          <select class="meta-select" onchange="metaSelect(this)">
+            <option value="">Elige una opción</option>
+            <option>Muy fácil 😄</option>
+            <option>Un poco difícil 🤔</option>
+            <option>Difícil pero lo entendí 💪</option>
+            <option>Interesante y nueva 🎉</option>
+          </select>
+        </div>
+        <div class="meta-card">
+          <div class="meta-icon">❓</div>
+          <h3>Todavía tengo dudas sobre...</h3>
+          <select class="meta-select" onchange="metaSelect(this)">
+            <option value="">Elige una opción</option>
+            <option>Cómo funciona la insulina</option>
+            <option>Qué es exactamente una glándula</option>
+            <option>Por qué la adrenalina acelera el corazón</option>
+            <option>No tengo dudas 😊</option>
+          </select>
+        </div>
+        <div class="meta-card">
+          <div class="meta-icon">🔗</div>
+          <h3>Esto lo puedo relacionar con...</h3>
+          <select class="meta-select" onchange="metaSelect(this)">
+            <option value="">Elige una opción</option>
+            <option>Mi propio cuerpo</option>
+            <option>Un familiar con diabetes</option>
+            <option>Cuando siento miedo o nervios</option>
+            <option>Lo que estudiamos de sistemas del cuerpo</option>
+          </select>
+        </div>
+      </div>
+      <div id="meta-msg" style="margin-top:12px; background:#d4f8d4; border-radius:10px; padding:10px 14px; color:#1a5e1a; font-size:13px; font-weight:600; display:none;">
+        ✅ ¡Excelente reflexión! Pensar sobre lo que aprendiste te ayuda a recordarlo mejor.
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SLIDE 13: CIERRE Y RECONOCIMIENTO -->
+  <!-- ============================================================ -->
+  <div class="slide" id="slide-13">
+    <div class="slide-header">
+      <span class="brand">Escolaris</span>
+      <span class="slide-info">Lección 9 · Cierre</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill"></div></div>
+    <div class="closure-bg">
+      <div class="closure-seal">🏆</div>
+      <div class="stars">⭐⭐⭐</div>
+      <div class="closure-title">¡Lo lograste!</div>
+      <div class="closure-sub">Completaste la Lección 9 – Funciones de las Hormonas</div>
+      <div class="closure-message">
+        Hoy aprendiste que las hormonas son los mensajeros del cuerpo: se producen en glándulas especiales, viajan por la sangre y llevan instrucciones a los órganos para mantener todo en equilibrio. ¡Tu cuerpo es increíble! 🧬✨
+      </div>
+      <div style="background: rgba(247,190,0,0.2); border-radius: 12px; padding: 10px 20px; color: var(--yellow); font-size: 13px; font-weight: 600;">
+        🎓 Escolaris · Ciencias Naturales 5° · Lección 9
+      </div>
+    </div>
+    <div class="slide-footer"><div class="slide-dots" id="dots"></div></div>
+  </div>
+
+  <!-- ARROW RIGHT -->
+  <button class="arrow arrow-right" id="arrowRight" onclick="changeSlide(1)" aria-label="Siguiente">&#8594;</button>
+
+</div>
+
+<script>
+  const TOTAL_SLIDES = 13;
+  let current = 1;
+
+  function initDots() {
+    document.querySelectorAll('.slide-dots').forEach(container => {
+      container.innerHTML = '';
+      for (let i = 1; i <= TOTAL_SLIDES; i++) {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === current ? ' active' : '');
+        d.onclick = () => goTo(i);
+        container.appendChild(d);
+      }
+    });
+  }
+
+  function updateProgress() {
+    const pct = ((current - 1) / (TOTAL_SLIDES - 1)) * 100;
+    document.querySelectorAll('.progress-bar-fill').forEach(el => el.style.width = pct + '%');
+  }
+
+  function goTo(n) {
+    document.getElementById('slide-' + current).classList.remove('active');
+    current = n;
+    document.getElementById('slide-' + current).classList.add('active');
+    document.getElementById('arrowLeft').classList.toggle('hidden', current === 1);
+    document.getElementById('arrowRight').classList.toggle('hidden', current === TOTAL_SLIDES);
+    initDots();
+    updateProgress();
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next >= 1 && next <= TOTAL_SLIDES) goTo(next);
+  }
+
+  // Keyboard nav
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+  });
+
+  // Reflect toggle
+  function toggleReflect(card) {
+    card.style.background = card.style.background === 'rgb(255, 248, 240)' ? '' : '#fff8f0';
+    card.style.borderLeft = card.style.borderLeft ? '' : '4px solid #db6015';
+  }
+
+  // Explore organs
+  const organData = {
+    hipofisis: { title: '🧠 Hipófisis', text: 'También llamada "glándula maestra". Produce la Hormona del Crecimiento (GH), que estimula el crecimiento de huesos y músculos. Está ubicada en la base del cerebro.' },
+    tiroides: { title: '🦋 Tiroides', text: 'Produce la Tiroxina, que controla el metabolismo del cuerpo: regula cuánta energía usa el organismo. Tiene forma de mariposa y está en el cuello.' },
+    suprarrenales: { title: '⚡ Glándulas Suprarrenales', text: 'Producen la Adrenalina (epinefrina). Se activan ante el estrés o peligro: aceleran el corazón y dan energía extra para reaccionar. Están sobre los riñones.' },
+    pancreas: { title: '🍬 Páncreas', text: 'Produce la Insulina, que regula los niveles de glucosa (azúcar) en la sangre. Sin insulina, el azúcar se acumula en la sangre causando daño al cuerpo.' },
+    ovarios: { title: '🌸 Ovarios', text: 'Producen Estrógeno y Progesterona. Estas hormonas son responsables del desarrollo femenino durante la pubertad y regulan el ciclo reproductivo.' },
+    testiculos: { title: '🔵 Testículos', text: 'Producen Testosterona. Esta hormona es responsable del desarrollo masculino durante la pubertad, incluyendo el crecimiento de músculos y la voz grave.' }
+  };
+  function exploreOrgan(id) {
+    document.querySelectorAll('.organ-btn').forEach(b => b.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    const d = organData[id];
+    document.getElementById('exploreInfo').innerHTML = `<div class="info-title">${d.title}</div><div>${d.text}</div>`;
+  }
+
+  // Multiple choice
+  function checkAnswer(btn, isCorrect, qId) {
+    const block = document.getElementById(qId + '-block') || btn.closest('.quiz-container');
+    const allBtns = btn.parentElement.querySelectorAll('.option-btn');
+    allBtns.forEach(b => b.disabled = true);
+    const fb = document.getElementById(qId + '-fb');
+    const retry = document.getElementById(qId + '-retry');
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.className = 'feedback-msg show success';
+      fb.textContent = '✅ ¡Correcto! Muy bien hecho.';
+    } else {
+      btn.classList.add('wrong');
+      fb.className = 'feedback-msg show error';
+      fb.textContent = '❌ No es correcto. Revisa el contenido e inténtalo nuevamente.';
+      retry.classList.add('show');
+    }
+  }
+
+  function retryQ(qId) {
+    const fb = document.getElementById(qId + '-fb');
+    const retry = document.getElementById(qId + '-retry');
+    const block = fb.closest('.quiz-container') || fb.parentElement;
+    const allBtns = block.querySelectorAll('.option-btn');
+    allBtns.forEach(b => { b.disabled = false; b.classList.remove('correct','wrong'); });
+    fb.className = 'feedback-msg';
+    retry.classList.remove('show');
+  }
+
+  // Match game
+  function matchAnswer(btn, mId, isCorrect) {
+    const container = document.getElementById(mId);
+    const allBtns = container.querySelectorAll('.match-opt');
+    allBtns.forEach(b => b.disabled = true);
+    const fb = document.getElementById(mId + '-fb');
+    const retry = document.getElementById(mId + '-retry');
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.className = 'feedback-msg show success';
+      fb.textContent = '✅ ¡Excelente! Esa es la función correcta.';
+      container.style.borderColor = '#3cb371';
+    } else {
+      btn.classList.add('wrong');
+      fb.className = 'feedback-msg show error';
+      fb.textContent = '❌ Esa no es la función de esta hormona. ¡Vuelve a intentarlo!';
+      retry.classList.add('show');
+    }
+  }
+
+  function retryMatch(mId) {
+    const container = document.getElementById(mId);
+    container.querySelectorAll('.match-opt').forEach(b => { b.disabled = false; b.classList.remove('correct','wrong','selected'); });
+    document.getElementById(mId + '-fb').className = 'feedback-msg';
+    document.getElementById(mId + '-retry').classList.remove('show');
+    container.style.borderColor = 'transparent';
+  }
+
+  // True/False
+  function tfAnswer(btn, isCorrect, tfId) {
+    const row = btn.parentElement;
+    row.querySelectorAll('.tf-btn').forEach(b => b.disabled = true);
+    const fb = document.getElementById(tfId + '-fb');
+    const retry = document.getElementById(tfId + '-retry');
+    if (isCorrect) {
+      btn.classList.add('correct');
+      fb.className = 'feedback-msg show success';
+      const msgs = {
+        tf1: '✅ ¡Correcto! Las hormonas viajan POR LA SANGRE, no por los nervios.',
+        tf2: '✅ ¡Correcto! La adrenalina prepara al cuerpo ante situaciones de peligro.',
+        tf3: '✅ ¡Correcto! El sistema endocrino incluye todas las glándulas y hormonas.',
+        tf4: '✅ ¡Correcto! La tiroxina es producida por la TIROIDES, no el páncreas.'
+      };
+      fb.textContent = msgs[tfId];
+    } else {
+      btn.classList.add('wrong');
+      fb.className = 'feedback-msg show error';
+      const errorMsgs = {
+        tf1: '❌ Falso. Las hormonas NO viajan por los nervios; viajan por la sangre.',
+        tf2: '❌ Verdadero. La adrenalina sí se libera ante el estrés y el peligro.',
+        tf3: '❌ Verdadero. El sistema endocrino agrupa glándulas y hormonas.',
+        tf4: '❌ Falso. La tiroxina la produce la tiroides, no el páncreas.'
+      };
+      fb.textContent = errorMsgs[tfId];
+      retry.classList.add('show');
+    }
+  }
+
+  function retryTF(tfId) {
+    const fb = document.getElementById(tfId + '-fb');
+    const retry = document.getElementById(tfId + '-retry');
+    fb.parentElement.querySelector('.tf-btns').querySelectorAll('.tf-btn').forEach(b => { b.disabled = false; b.classList.remove('correct','wrong'); });
+    fb.className = 'feedback-msg';
+    retry.classList.remove('show');
+  }
+
+  // Metacognition
+  let metaCount = 0;
+  function metaSelect(sel) {
+    if (sel.value) {
+      sel.style.background = '#d4f8d4';
+      sel.style.borderColor = '#3cb371';
+      metaCount++;
+      if (metaCount >= 2) document.getElementById('meta-msg').style.display = 'block';
+    }
+  }
+
+  // Init
+  initDots();
+  updateProgress();
+</script>
+</body>
+</html>
